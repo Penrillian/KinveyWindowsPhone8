@@ -20,6 +20,10 @@ You can build the solution file (Kinvey.sln) with Visual Studio 2012 in release 
 
 A suite of N-Unit tests is provided in the Com.Penrillian.Kinvey.Test project which can be run using any test runner.
 
+## Including the Source
+
+To include the source, instead of using a pre-build DLL, simply include the Com.Penrillian.Kinvey project in your solution. You can also include the Com.Penrillian.Kinvey.Tests project into your test suite.
+
 ## Example Usage ##
 
 ### Initialising the DLL ###
