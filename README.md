@@ -25,15 +25,18 @@ A suite of N-Unit tests is provided in the Com.Penrillian.Kinvey.Test project wh
 ### Initialising the DLL ###
 
 This **MUST** be done before the DLL is used by your app. It is best practice to do this during app initialization. Inform the KinveySettings class of your AuthToken and AuthKey...
-
+>
+```c#
     KinveySettings.Get().AppAuthToken = "h4gs56j4t8a4n1a3j4t8a34j5t34a534fgag23bcxvz=";
     KinveySettings.Get().AppKey = "MyApp";
+```
 
 ### Basic CRUD ###
 
-Accessing collections is done using the
+Accessing collections is done using the 
 `IKinveyService <T>` interface. The type parameter `T` should be a type marked with the `KinveyCollection` attribute, using the collection name as the parameter. Serialization attributes can be added to the properties of this class to match your collection schema...
-
+>
+```c#
     [KinveyCollection("giraffe")]
     public class Giraffe : KinveyObject
     {
@@ -43,6 +46,7 @@ Accessing collections is done using the
         [JsonProperty(PropertyName = "age")]
         public int Age { get; set; }
     }
+```
 
 You can get an instance of an IKinveyService from the KinveyFactory class...
 
@@ -70,7 +74,7 @@ You can count, query and delete by query all as TAP operations...
 
 #### Working with Constraints ####
 
-Query constraint objects give a fluid API for defining queries.
+Query constraint objects give a fluid API for defining queries. 
 
 	var query = new KinveyQuery<Giraffe>();
 	// constrain
