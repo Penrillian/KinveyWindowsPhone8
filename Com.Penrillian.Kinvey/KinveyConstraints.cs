@@ -6,11 +6,16 @@ using Newtonsoft.Json;
 
 namespace Com.Penrillian.Kinvey
 {
+    [JsonDictionary]
+    internal class JsonDictionary : Dictionary<string, object>
+    {
+    }
+
     public class KinveyConstraints<T> where T : KinveyObject, new()
     {
         #region Backing
 
-        private Dictionary<string, object> _keyConstraints;
+        private readonly JsonDictionary _keyConstraints;
 
         #endregion
 
@@ -19,7 +24,7 @@ namespace Com.Penrillian.Kinvey
         /// </summary>
         public KinveyConstraints()
         {
-            _keyConstraints = new Dictionary<string, object>();
+            _keyConstraints = new JsonDictionary();
         }
 
         #region Constraints (Fluid)
@@ -56,10 +61,14 @@ namespace Com.Penrillian.Kinvey
 
         private KinveyConstraints<T> Constrain<TVal>(Expression<Func<T, TVal>> target, object constraint) where TVal : IComparable
         {
-            var property = PropertyName(target);
-            if (_keyConstraints.ContainsKey(property))
-                _keyConstraints.Remove(property);
-            _keyConstraints.Add(property, constraint);
+            return Constrain(PropertyName(target), constraint);
+        }
+
+        internal KinveyConstraints<T> Constrain(string target, object constraint)
+        {
+            if (_keyConstraints.ContainsKey(target))
+                _keyConstraints.Remove(target);
+            _keyConstraints.Add(target, constraint);
             return this;
         }
 
@@ -111,9 +120,50 @@ namespace Com.Penrillian.Kinvey
         public override string ToString()
         {
             var settings = new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore};
-            return _keyConstraints.Count > 0 ? JsonConvert.SerializeObject(_keyConstraints, settings) : "{}";
+            var serializeConstraints = new JsonDictionary();
+            foreach (var keyConstraint in _keyConstraints)
+            {
+                if (keyConstraint.Value is IEnumerable<KinveyConstraints<T>>)
+                {
+                    var childConstraints = ((IEnumerable<KinveyConstraints<T>>) keyConstraint.Value)
+                                                .Select(constraint => constraint.ToString()).ToList();
+                    serializeConstraints[keyConstraint.Key] = childConstraints;
+                }
+                else if (keyConstraint.Value is KinveyConstraints<T>)
+                {
+                    serializeConstraints[keyConstraint.Key] = keyConstraint.Value.ToString();
+                }
+                else
+                {
+                    serializeConstraints[keyConstraint.Key] = keyConstraint.Value;
+                }
+            }
+            return serializeConstraints.Count > 0 ? JsonConvert.SerializeObject(serializeConstraints, settings).Replace("\\", "").Replace("\"{", "{").Replace("}\"", "}") : "{}";
         }
 
         #endregion
+    }
+
+    public static class ConstraintJoins
+    {
+        public static KinveyConstraints<T> Or<T>(this IEnumerable<KinveyConstraints<T>> constraints) where T : KinveyObject, new()
+        {
+            return new KinveyConstraints<T>().Constrain("$or", constraints);
+        }
+
+        public static KinveyConstraints<T> Nor<T>(this IEnumerable<KinveyConstraints<T>> constraints) where T : KinveyObject, new()
+        {
+            return new KinveyConstraints<T>().Constrain("$nor", constraints);
+        }
+
+        public static KinveyConstraints<T> And<T>(this IEnumerable<KinveyConstraints<T>> constraints) where T : KinveyObject, new()
+        {
+            return new KinveyConstraints<T>().Constrain("$and", constraints);
+        }
+
+        public static KinveyConstraints<T> Not<T>(this KinveyConstraints<T> constraints) where T : KinveyObject, new()
+        {
+            return new KinveyConstraints<T>().Constrain("$not", constraints);
+        }
     }
 }

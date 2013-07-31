@@ -132,3 +132,23 @@ When adopting a set of constraints after construction, the adopted constraints w
 	// Age is now constrained by Is.GreaterThan(19)
 	
 ```
+
+Constraints can be joined using *or*, *nor* and *and* joins...
+
+```c#
+    var orConstraints = new[]
+        {
+            new KinveyConstraints<Giraffe>().Constrain(g => g.Name, "steve"), 
+            new KinveyConstraints<Giraffe>().Constrain(g => g.Name, "dave")
+        }.Or();
+    var andConstraints = new[]
+        {
+            new KinveyConstraints<Giraffe>().Constrain(g => g.Name, "steve"), 
+            new KinveyConstraints<Giraffe>().Constrain(g => g.Age, 19)
+        }.And();
+```
+
+...and negated...
+```c#
+	var notConstraints = new KinveyConstraints<Giraffe>().Constrain(g => g.Name, "steve").Not();
+```
