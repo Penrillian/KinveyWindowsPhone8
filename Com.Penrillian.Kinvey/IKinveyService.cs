@@ -31,7 +31,7 @@ namespace Com.Penrillian.Kinvey
         /// </summary>
         /// <param name="kinveyQuery">The constraints for the query</param>
         /// <returns>An enumerable collection of matching records</returns>
-        Task<IEnumerable<T>> Read(KinveyQuery<T> kinveyQuery);
+        Task<IEnumerable<T>> Read(KinveyConstraints<T> kinveyQuery);
 
         /// <summary>
         /// Makes a POST request to update an existing record.
@@ -52,7 +52,7 @@ namespace Com.Penrillian.Kinvey
         /// </summary>
         /// <param name="query">The query, records matching these constraints will be deleted</param>
         /// <returns>The count of deleted records</returns>
-        Task<int> Delete(KinveyQuery<T> query);
+        Task<int> Delete(KinveyConstraints<T> query);
 
         /// <summary>
         /// Makes a GET request to discover the count of records in the collection.
@@ -66,6 +66,6 @@ namespace Com.Penrillian.Kinvey
         /// </summary>
         /// <param name="query">The query to match</param>
         /// <returns>The record count of this query</returns>
-        Task<int> Count(KinveyQuery<T> query);
+        Task<int> Count(KinveyConstraints<T> query);
     }
 }
