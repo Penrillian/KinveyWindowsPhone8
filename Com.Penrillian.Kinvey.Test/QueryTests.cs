@@ -120,8 +120,33 @@ namespace Com.Penrillian.Kinvey.Test
         [Test]
         public void NotExistentConstraint()
         {
-            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.NotExistent<string>());
+            var constraints = new KinveyConstraints<Giraffe>().Constrain(g => g.Name, Is.NotExistent<string>());
+            var query = new KinveyQuery<Giraffe>(constraints);
             Assert.AreEqual("?query={\"name\":{\"$exists\":false}}", query.ToString());
+        }
+
+        [Test]
+        public void AdoptionRulesPreferAdoptedConstraint()
+        {
+            var constraints = new KinveyConstraints<Giraffe>()
+                                    .Constrain(g => g.Name, "steve")
+                                    .Constrain(g => g.Age, 19);
+            var query = new KinveyQuery<Giraffe>()
+                                    .Constrain(g => g.Name, "dave");
+            query.Adopt(constraints);
+            Assert.AreEqual("?query={\"name\":\"steve\",\"age\":19}", query.ToString());
+        }
+
+        [Test]
+        public void AdoptionRulesPreserveOrphanedConstraint()
+        {
+            var constraints = new KinveyConstraints<Giraffe>()
+                                    .Constrain(g => g.Name, "steve");
+            var query = new KinveyQuery<Giraffe>()
+                                    .Constrain(g => g.Name, "dave")
+                                    .Constrain(g => g.Age, 19);
+            query.Adopt(constraints);
+            Assert.AreEqual("?query={\"name\":\"steve\",\"age\":19}", query.ToString());
         }
     }
 }

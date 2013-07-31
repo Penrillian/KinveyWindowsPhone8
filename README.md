@@ -106,3 +106,29 @@ Query constraint objects give a fluid API for defining queries.
 				.Limit(20)
 				.Skip(20);
 ```
+
+It is also possible to work on sets of constraints outwith the bounds of a query object, and then build a query which will automatically adopt these constraints. This is useful if you want to build a pager which will generate multiple query objects with the same constraints.
+
+```c#
+	var constraints = new KinveyConstraints<Giraffe>()
+							.Constrain(g => g.Name, "Dave")
+							.Constrain(g => g.Age, Is.GreaterThan(18));
+	var page1 = new Query(constraints).Limit(20).Skip(0);
+	var page2 = new Query(constraints).Limit(20).Skip(20);
+	var page3 = new Query(constraints).Limit(20).Skip(40);
+```
+
+When adopting a set of constraints after construction, the adopted constraints will be added to the query alongside the current constraints. The exception to this rule is where there are two constraints targeting the same field, the adopted constraint will be preferred.
+
+```c#
+	query = new KinveyQuery<Giraffe>()
+				.Constrain(g => g.Age, Is.GreaterThan(19))
+				.Limit(20)
+				.Skip(20);
+	var constraints = new KinveyConstraints<Giraffe>()
+							.Constrain(g => g.Name, "Dave")
+							.Constrain(g => g.Age, Is.GreaterThan(18));
+	query.Adopt(constraints);
+	// Age is now constrained by Is.GreaterThan(19)
+	
+```
