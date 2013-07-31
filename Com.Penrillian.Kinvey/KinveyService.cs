@@ -75,7 +75,7 @@ namespace Com.Penrillian.Kinvey
             return await GetResult<T>(response);
         }
 
-        public async Task<IEnumerable<T>> Read(KinveyQuery<T> kinveyQuery)
+        public async Task<IEnumerable<T>> Read(KinveyConstraints<T> kinveyQuery)
         {
             var uri = new Uri(string.Format("/appdata/{0}/{1}/{2}", KinveySettings.Get().AppKey, _entityName, kinveyQuery), UriKind.Relative);
 
@@ -102,7 +102,7 @@ namespace Com.Penrillian.Kinvey
             return (await GetResult<CountResponse>(response)).Count;
         }
 
-        public async Task<int> Delete(KinveyQuery<T> query)
+        public async Task<int> Delete(KinveyConstraints<T> query)
         {
             var uri = new Uri(string.Format("/appdata/{0}/{1}/{2}", KinveySettings.Get().AppKey, _entityName, query), UriKind.Relative);
 
@@ -118,7 +118,7 @@ namespace Com.Penrillian.Kinvey
             return (await GetResult<CountResponse>(response)).Count;
         }
 
-        public async Task<int> Count(KinveyQuery<T> query)
+        public async Task<int> Count(KinveyConstraints<T> query)
         {
             var uri = new Uri(string.Format("/appdata/{0}/{1}/{2}/{3}", KinveySettings.Get().AppKey, _entityName, "_count", query), UriKind.Relative);
 

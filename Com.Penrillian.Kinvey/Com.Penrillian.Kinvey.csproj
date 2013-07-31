@@ -98,6 +98,7 @@
     <Compile Include="KinveyAccessControl.cs" />
     <Compile Include="KinveyCollectionAttribute.cs" />
     <Compile Include="Constraint.cs" />
+    <Compile Include="KinveyConstraints.cs" />
     <Compile Include="KinveyEmailVerification.cs" />
     <Compile Include="KinveyError.cs" />
     <Compile Include="KinveyException.cs" />
