@@ -7,11 +7,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Com.Penrillian.Kinvey")]
-[assembly: AssemblyDescription("Windows Phone 8 support DLL for Kinvey BaaS")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Penrillian")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Com.Penrillian.Kinvey")]
-[assembly: AssemblyCopyright("Copyright © 2013 Penrillian")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

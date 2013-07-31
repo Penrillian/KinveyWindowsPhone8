@@ -88,5 +88,40 @@ namespace Com.Penrillian.Kinvey.Test
             var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.GreaterThan("steve").LessThan("dave"));
             Assert.AreEqual("?query={\"name\":{\"$gt\":\"steve\",\"$lt\":\"dave\"}}", query.ToString());
         }
+
+        [Test]
+        public void InConstraint()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.In(new[] { "steve", "dave" }));
+            Assert.AreEqual("?query={\"name\":{\"$in\":[\"steve\",\"dave\"]}}", query.ToString());
+        }
+
+        [Test]
+        public void NeConstraint()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.NotEqualTo("steve"));
+            Assert.AreEqual("?query={\"name\":{\"$ne\":\"steve\"}}", query.ToString()); 
+        }
+
+        [Test]
+        public void NotInConstraint()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.NotIn(new[] { "steve", "dave" }));
+            Assert.AreEqual("?query={\"name\":{\"$nin\":[\"steve\",\"dave\"]}}", query.ToString());
+        }
+
+        [Test]
+        public void ExistentConstraint()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.Existent<string>());
+            Assert.AreEqual("?query={\"name\":{\"$exists\":true}}", query.ToString());
+        }
+
+        [Test]
+        public void NotExistentConstraint()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.NotExistent<string>());
+            Assert.AreEqual("?query={\"name\":{\"$exists\":false}}", query.ToString());
+        }
     }
 }

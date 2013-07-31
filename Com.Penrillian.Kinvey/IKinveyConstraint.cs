@@ -9,7 +9,7 @@ namespace Com.Penrillian.Kinvey
     /// </summary>
     /// <typeparam name="T">The type of the target field</typeparam>
     /// <see cref="Com.Penrillian.Kinvey.KinveyQuery&lt;T&gt;"/>
-    public interface IKinveyConstraint<T> : IDictionary<string, T>
+    public interface IKinveyConstraint<T> : IDictionary<string, object>
     {
     }
 }
