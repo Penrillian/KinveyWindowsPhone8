@@ -236,5 +236,12 @@ namespace Com.Penrillian.Kinvey.Test
             var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.Regex("st.*ve","i"));
             Assert.AreEqual("?query={\"name\":{\"$regex\":\"st.*ve\",\"$options\":\"i\"}}", query.ToString());
         }
+
+        [Test]
+        public void All()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Friends, Is.All(new []{"steve","dave"}));
+            Assert.AreEqual("?query={\"friends\":{\"$all\":[\"steve\",\"dave\"]}}", query.ToString());
+        }
     }
 }
