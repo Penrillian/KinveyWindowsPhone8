@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Com.Penrillian.Kinvey.Test
 {
@@ -221,6 +222,34 @@ namespace Com.Penrillian.Kinvey.Test
         {
             var constraints = new KinveyConstraints<Giraffe>().Constrain(g => g.Name, "steve").Not();
             Assert.AreEqual("{\"$not\":{\"name\":\"steve\"}}", constraints.ToString()); 
+        }
+
+        [Test]
+        public void Where()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Age, Is.Where<int>("this.age>19"));
+            Assert.AreEqual("?query={\"age\":{\"$where\":\"this.age>19\"}}", query.ToString());
+        }
+
+        [Test]
+        public void Regex()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.Regex("st.*ve","i"));
+            Assert.AreEqual("?query={\"name\":{\"$regex\":\"st.*ve\",\"$options\":\"i\"}}", query.ToString());
+        }
+
+        [Test]
+        public void All()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Friends, Is.All(new []{"steve","dave"}));
+            Assert.AreEqual("?query={\"friends\":{\"$all\":[\"steve\",\"dave\"]}}", query.ToString());
+        }
+
+        [Test]
+        public void Size()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Friends, Is.Size<string>(2));
+            Assert.AreEqual("?query={\"friends\":{\"$size\":2}}", query.ToString());
         }
     }
 }

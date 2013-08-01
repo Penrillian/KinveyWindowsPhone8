@@ -39,7 +39,7 @@ namespace Com.Penrillian.Kinvey
         /// <typeparam name="TVal">The type of the target field</typeparam>
         /// <param name="target">Expression describing the target field</param>
         /// <param name="constraint">An object representing a constraint on the target fields value</param>
-        public KinveyConstraints<T> Constrain<TVal>(Expression<Func<T, TVal>> target, IKinveyConstraint<TVal> constraint) where TVal : IComparable
+        public KinveyConstraints<T> Constrain<TVal>(Expression<Func<T, TVal>> target, IKinveyConstraint<TVal> constraint)
         {
             return Constrain(target, (object)constraint);
         }
@@ -54,12 +54,12 @@ namespace Com.Penrillian.Kinvey
         /// <typeparam name="TVal">The type of the target field</typeparam>
         /// <param name="target">Expression describing the target field</param>
         /// <param name="constraint">The desired value of the target field</param>
-        public KinveyConstraints<T> Constrain<TVal>(Expression<Func<T, TVal>> target, TVal constraint) where TVal : IComparable
+        public KinveyConstraints<T> Constrain<TVal>(Expression<Func<T, TVal>> target, TVal constraint)
         {
             return Constrain(target, (object)constraint);
         }
 
-        private KinveyConstraints<T> Constrain<TVal>(Expression<Func<T, TVal>> target, object constraint) where TVal : IComparable
+        private KinveyConstraints<T> Constrain<TVal>(Expression<Func<T, TVal>> target, object constraint)
         {
             return Constrain(PropertyName(target), constraint);
         }
