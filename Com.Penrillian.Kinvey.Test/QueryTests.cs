@@ -222,5 +222,12 @@ namespace Com.Penrillian.Kinvey.Test
             var constraints = new KinveyConstraints<Giraffe>().Constrain(g => g.Name, "steve").Not();
             Assert.AreEqual("{\"$not\":{\"name\":\"steve\"}}", constraints.ToString()); 
         }
+
+        [Test]
+        public void Where()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Age, Is.Where<int>("this.age>19"));
+            Assert.AreEqual("?query={\"age\":{\"$where\":\"this.age>19\"}}", query.ToString());
+        }
     }
 }

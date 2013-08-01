@@ -108,6 +108,17 @@ namespace Com.Penrillian.Kinvey
             return Get<T>().NotExistent();
         }
 
+        /// <summary>
+        /// Constrains a field to fulfil a javascript predicate
+        /// </summary>
+        /// <typeparam name="T">>A comparable target type</typeparam>
+        /// <param name="predicate">the predicate to fulfill</param>
+        /// <returns>a constraint object</returns>
+        public static IKinveyConstraint<T> Where<T>(string predicate) where T : IComparable
+        {
+            return Get<T>().Where(predicate);
+        }
+
         private static IKinveyConstraint<T> Get<T>() where T : IComparable
         {
             return new Constraint<T>();
@@ -232,6 +243,19 @@ namespace Com.Penrillian.Kinvey
         public static IKinveyConstraint<T> NotExistent<T>(this IKinveyConstraint<T> constraint) where T : IComparable
         {
             constraint.Add("$exists", false);
+            return constraint;
+        }
+
+        /// <summary>
+        /// Constrains a field to fulfil a javascript predicate
+        /// </summary>
+        /// <typeparam name="T">>A comparable target type</typeparam>
+        /// <param name="constraint">the constraint to extend</param>
+        /// <param name="predicate">the predicate to fulfill</param>
+        /// <returns>a constraint object</returns>
+        public static IKinveyConstraint<T> Where<T>(this IKinveyConstraint<T> constraint, string predicate) where T : IComparable
+        {
+            constraint.Add("$where", predicate);
             return constraint;
         }
     }
