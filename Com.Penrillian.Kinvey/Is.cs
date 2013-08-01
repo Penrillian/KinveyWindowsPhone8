@@ -144,6 +144,17 @@ namespace Com.Penrillian.Kinvey
             return Get<IEnumerable<T>>().All(target);
         }
 
+        /// <summary>
+        /// Constrains a field containing an array to be a certain size
+        /// </summary>
+        /// <typeparam name="T">>A comparable target type</typeparam>
+        /// <param name="target">the size to match</param>
+        /// <returns>a constraint object</returns>
+        public static IKinveyConstraint<IEnumerable<T>> Size<T>(int target)
+        {
+            return Get<IEnumerable<T>>().Size(target);
+        }
+
         private static IKinveyConstraint<T> Get<T>()
         {
             return new Constraint<T>();
@@ -308,6 +319,19 @@ namespace Com.Penrillian.Kinvey
         public static IKinveyConstraint<IEnumerable<T>> All<T>(this IKinveyConstraint<IEnumerable<T>> constraint, IEnumerable<T> target)
         {
             constraint.Add("$all", target);
+            return constraint;
+        }
+
+        /// <summary>
+        /// Constrains a field containing an array to be a certain size
+        /// </summary>
+        /// <typeparam name="T">>A comparable target type</typeparam>
+        /// <param name="constraint">the constraint to extend</param>
+        /// <param name="target">the size to match</param>
+        /// <returns>a constraint object</returns>
+        public static IKinveyConstraint<IEnumerable<T>> Size<T>(this IKinveyConstraint<IEnumerable<T>> constraint, int target)
+        {
+            constraint.Add("$size", target);
             return constraint;
         }
     }

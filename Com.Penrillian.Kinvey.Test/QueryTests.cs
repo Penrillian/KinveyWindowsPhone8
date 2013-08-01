@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Com.Penrillian.Kinvey.Test
 {
@@ -242,6 +243,13 @@ namespace Com.Penrillian.Kinvey.Test
         {
             var query = new KinveyQuery<Giraffe>().Constrain(g => g.Friends, Is.All(new []{"steve","dave"}));
             Assert.AreEqual("?query={\"friends\":{\"$all\":[\"steve\",\"dave\"]}}", query.ToString());
+        }
+
+        [Test]
+        public void Size()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Friends, Is.Size<string>(2));
+            Assert.AreEqual("?query={\"friends\":{\"$size\":2}}", query.ToString());
         }
     }
 }
