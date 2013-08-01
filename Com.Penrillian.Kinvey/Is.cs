@@ -119,6 +119,20 @@ namespace Com.Penrillian.Kinvey
             return Get<T>().Where(predicate);
         }
 
+        /// <summary>
+        /// Constrains a string field to match a regex
+        /// </summary>
+        /// <param name="regex">the regex to match</param>
+        /// <param name="options">the regex options</param>
+        /// <returns>a constraint object</returns>
+        public static IKinveyConstraint<string> Regex(string regex, string options)
+        {
+            var constraint = Get<string>();
+            constraint.Add("$regex", regex);
+            constraint.Add("$options", options);
+            return constraint;
+        }
+
         private static IKinveyConstraint<T> Get<T>() where T : IComparable
         {
             return new Constraint<T>();
@@ -256,6 +270,20 @@ namespace Com.Penrillian.Kinvey
         public static IKinveyConstraint<T> Where<T>(this IKinveyConstraint<T> constraint, string predicate) where T : IComparable
         {
             constraint.Add("$where", predicate);
+            return constraint;
+        }
+
+        /// <summary>
+        /// Constrains a string field to match a regex
+        /// </summary>
+        /// <param name="constraint">the constraint to extend</param>
+        /// <param name="regex">the regex to match</param>
+        /// <param name="options">the regex options</param>
+        /// <returns>a constraint object</returns>
+        public static IKinveyConstraint<string> Regex(this IKinveyConstraint<string> constraint, string regex, string options)
+        {
+            constraint.Add("$regex", regex);
+            constraint.Add("$options", options);
             return constraint;
         }
     }

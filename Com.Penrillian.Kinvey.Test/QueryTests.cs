@@ -229,5 +229,12 @@ namespace Com.Penrillian.Kinvey.Test
             var query = new KinveyQuery<Giraffe>().Constrain(g => g.Age, Is.Where<int>("this.age>19"));
             Assert.AreEqual("?query={\"age\":{\"$where\":\"this.age>19\"}}", query.ToString());
         }
+
+        [Test]
+        public void Regex()
+        {
+            var query = new KinveyQuery<Giraffe>().Constrain(g => g.Name, Is.Regex("st.*ve","i"));
+            Assert.AreEqual("?query={\"name\":{\"$regex\":\"st.*ve\",\"$options\":\"i\"}}", query.ToString());
+        }
     }
 }
