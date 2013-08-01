@@ -8,7 +8,7 @@ This project aims to provide support to Windows Phone 8 apps backed by [Kinvey B
 - [Microsoft HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/2.1.10)
 - [Json.NET](http://nuget.org/packages/Newtonsoft.Json/)
 
-These dependencies will be downloaded and installed by Visual Studio during the build process if your setup allows.
+These dependencies are included in this repository.
 
 ## Building the DLL ##
 
