@@ -11,6 +11,9 @@ namespace Com.Penrillian.Kinvey.Test
         [JsonProperty(PropertyName = "age")]
         public int Age { get; set; }
 
+        [JsonProperty(PropertyName = "friends")]
+        public string[] Friends { get; set; }
+
         private bool Equals(KinveyObject other)
         {
             return string.Equals(Id, other.Id);
@@ -40,6 +43,9 @@ namespace Com.Penrillian.Kinvey.Test
 
         [JsonProperty(PropertyName = "age")]
         public int Age { get; set; }
+
+        [JsonProperty(PropertyName = "friends")]
+        public string[] Friends { get; set; }
 
         private bool Equals(KinveyObject other)
         {
