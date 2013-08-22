@@ -31,10 +31,10 @@ namespace Com.Penrillian.Kinvey
         {
             var uri = new Uri(string.Format("/appdata/{0}", KinveySettings.Get().AppKey), UriKind.Relative);
 
-            var resp = await _httpClient.GetAsync(uri);
-            var json = await resp.Content.ReadAsStringAsync();
+            var resp = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+            var json = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            return JsonConvert.DeserializeObject<KinveyHandshakeResponse>(json);
+            return await JsonConvert.DeserializeObjectAsync<KinveyHandshakeResponse>(json).ConfigureAwait(false);
         }
     }
 }
