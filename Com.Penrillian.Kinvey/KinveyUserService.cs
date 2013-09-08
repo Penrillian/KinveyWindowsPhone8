@@ -42,40 +42,40 @@ namespace Com.Penrillian.Kinvey
             _httpClient.BaseAddress = new Uri("https://baas.kinvey.com/");
         }
 
-        public async Task<KinveyUser> LogIn(string username, string password)
+        public Task<KinveyUser> LogIn(string username, string password)
         {
             var uri = new Uri(string.Format("/user/{0}/login", KinveySettings.Get().AppKey), UriKind.Relative);
-            return await DoAuth(uri, username, password).ConfigureAwait(false);
+            return DoAuth(uri, username, password);
         }
 
-        public async Task<KinveyUser> SignUp(string username, string password)
+        public Task<KinveyUser> SignUp(string username, string password)
         {
             var uri = new Uri(string.Format("/user/{0}/", KinveySettings.Get().AppKey), UriKind.Relative);
-            return await DoAuth(uri, username, password).ConfigureAwait(false);
+            return DoAuth(uri, username, password);
         }
 
-        public async Task<KinveyFacebookUser> SignUp(FacebookIdentityToken socialIdentity)
+        public Task<KinveyFacebookUser> SignUp(FacebookIdentityToken socialIdentity)
         {
             var uri = new Uri(string.Format("/user/{0}/", KinveySettings.Get().AppKey), UriKind.Relative);
-            return await DoSocialAuth<KinveyFacebookUser, FacebookIdentity>(uri, socialIdentity).ConfigureAwait(false);
+            return DoSocialAuth<KinveyFacebookUser, FacebookIdentity>(uri, socialIdentity);
         }
 
-        public async Task<KinveyTwitterUser> SignUp(TwitterIdentityToken socialIdentity)
+        public Task<KinveyTwitterUser> SignUp(TwitterIdentityToken socialIdentity)
         {
             var uri = new Uri(string.Format("/user/{0}/", KinveySettings.Get().AppKey), UriKind.Relative);
-            return await DoSocialAuth<KinveyTwitterUser, TwitterIdendity>(uri, socialIdentity).ConfigureAwait(false);
+            return DoSocialAuth<KinveyTwitterUser, TwitterIdendity>(uri, socialIdentity);
         }
 
-        public async Task<KinveyGooglePlusUser> SignUp(GooglePlusIdentityToken socialIdentity)
+        public Task<KinveyGooglePlusUser> SignUp(GooglePlusIdentityToken socialIdentity)
         {
             var uri = new Uri(string.Format("/user/{0}/", KinveySettings.Get().AppKey), UriKind.Relative);
-            return await DoSocialAuth<KinveyGooglePlusUser, GooglePlusIdentity>(uri, socialIdentity).ConfigureAwait(false);
+            return DoSocialAuth<KinveyGooglePlusUser, GooglePlusIdentity>(uri, socialIdentity);
         }
 
-        public async Task<KinveyLinkedInUser> SignUp(LinkedInIdentityToken socialIdentity)
+        public Task<KinveyLinkedInUser> SignUp(LinkedInIdentityToken socialIdentity)
         {
             var uri = new Uri(string.Format("/user/{0}/", KinveySettings.Get().AppKey), UriKind.Relative);
-            return await DoSocialAuth<KinveyLinkedInUser, LinkedInIdentity>(uri, socialIdentity).ConfigureAwait(false);
+            return DoSocialAuth<KinveyLinkedInUser, LinkedInIdentity>(uri, socialIdentity);
         }
 
         public async Task LogOut()
