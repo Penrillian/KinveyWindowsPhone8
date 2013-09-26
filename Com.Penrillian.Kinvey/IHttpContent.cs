@@ -19,9 +19,9 @@ namespace Com.Penrillian.Kinvey
             Content = content;
         }
 
-        public async Task<string> ReadAsStringAsync()
+        public Task<string> ReadAsStringAsync()
         {
-            return await Content.ReadAsStringAsync();
+            return Content.ReadAsStringAsync();
         }
 
         public HttpContentHeaders Headers 
